@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What City</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <h1>What city is this?</h1>
+        <p id="hint"></p>
+        <input type="text" id="guess-input" placeholder="Type your guess here...">
+        <button id="submit-button" onclick="submitGuess()" >Submit</button>
+        <p id="timer">Time left: <span id="time">10</span> seconds</p>
+        <p id="result"></p>
+        <button id="start-button" onclick="startGame()" >Start Game</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+<script>
+  let cities = [
+    { name: "Nairobi", hint: "Known for Nairobi National Park" },
+    { name: "Tokyo", hint: "Famous for its cherry blossoms and technology" },
+    { name: "Paris", hint: "Known as the City of Light" },
+    { name: "New York", hint: "Known as the Big Apple" },
+    { name: "Sydney", hint: "Famous for its Opera House" },
+    { name: "London", hint: "Known for Big Ben and the London Eye" },
+    { name: "Beijing", hint: "Home to the Great Wall of China" },
+    { name: "Moscow", hint: "Known for the Kremlin and Red Square" },
+    { name: "Rome", hint: "Famous for the Colosseum and Roman Forum" },
+    { name: "Berlin", hint: "Known for the Berlin Wall" },
+    { name: "Madrid", hint: "Famous for its art museums" },
+    { name: "Cairo", hint: "Known for the Pyramids of Giza" },
+    { name: "Bangkok", hint: "Known for its vibrant street life" },
+    { name: "Buenos Aires", hint: "Famous for tango dance" },
+    { name: "Lagos", hint: "Largest city in Nigeria" },
+    { name: "Cape Town", hint: "Famous for Table Mountain" },
+    { name: "Mumbai", hint: "Known as the Bollywood capital" },
+    { name: "Rio de Janeiro", hint: "Famous for its Carnival festival" },
+    { name: "Dubai", hint: "Known for its skyscrapers and luxury shopping" },
+    { name: "Singapore", hint: "Known for its cleanliness and Marina Bay Sands" },
+    { name: "Los Angeles", hint: "Known for Hollywood" },
+    { name: "Istanbul", hint: "City that straddles Europe and Asia" },
+    { name: "Seoul", hint: "Famous for K-pop and technology" },
+    { name: "Toronto", hint: "Known for the CN Tower" },
+    { name: "Mexico City", hint: "Known for its historic center" },
+    { name: "Jakarta", hint: "Known for its bustling city life" },
+    { name: "Vienna", hint: "Famous for classical music" },
+    { name: "Athens", hint: "Known for the Acropolis and Parthenon" },
+    { name: "Lima", hint: "Known for its culinary scene" },
+    { name: "Lisbon", hint: "Known for its historic trams" },
+    { name: "Oslo", hint: "Famous for its fjords" },
+    { name: "Helsinki", hint: "Known for its design and architecture" },
+    { name: "Stockholm", hint: "Famous for its archipelago" },
+    { name: "Amsterdam", hint: "Known for its canals and cycling" },
+    { name: "Brussels", hint: "Famous for its chocolate and beer" },
+    { name: "Zurich", hint: "Known for its banking and finance" },
+    { name: "Dublin", hint: "Famous for its pubs and literature" }
+];
+
+
+let selectedCity = null;
+let timer = null;
+let timeLeft = 10;
+
+function startGame() {
+    selectedCity = cities[Math.floor(Math.random() * cities.length)];
+    document.getElementById("hint").innerText = `Hint: ${selectedCity.hint}`;
+    document.getElementById("result").innerText = "";
+    document.getElementById("guess-input").value = "";
+    document.getElementById("time").innerText = timeLeft;
+
+    timer = setInterval(countdown, 1000);
+}
+
+function countdown() {
+    timeLeft--;
+    document.getElementById("time").innerText = timeLeft;
+
+    if (timeLeft <= 0) {
+        clearInterval(timer);
+        checkGuess();
+    }
+}
+
+function submitGuess() {
+    clearInterval(timer);
+    checkGuess();
+}
+
+function checkGuess() {
+    let guess = document.getElementById("guess-input").value.trim().toLowerCase();
+    let result = document.getElementById("result");
+
+    if (guess === selectedCity.name.toLowerCase()) {
+        result.innerText = "Correct! You guessed the city!";
+    } else {
+        result.innerText = `Wrong! The correct city was ${selectedCity.name}.`;
+    }
+
+    timeLeft = 10;
+}
+
+document.getElementById("start-button").onclick = startGame;
+document.getElementById("submit-button").onclick = submitGuess;
+
+</script>
